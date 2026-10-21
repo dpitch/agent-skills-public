@@ -1,5 +1,6 @@
 # name	repo	path (generated nightly by skills-hub/export_public.py, do not edit)
 agent-browser	https://github.com/vercel-labs/agent-browser.git	skills/agent-browser
+animate	https://github.com/emilkowalski/skills.git	skills/animate
 apple-design	https://github.com/emilkowalski/skills.git	skills/apple-design
 architect	https://github.com/uzairansaruzi/p3-stack.git	skills/architect
 benchmark-checklist	https://github.com/uzairansaruzi/p3-stack.git	skills/benchmark-checklist
