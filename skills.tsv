@@ -24,6 +24,7 @@ frontend-design	https://github.com/anthropics/skills.git	skills/frontend-design
 grilling	https://github.com/mattpocock/skills.git	skills/productivity/grilling
 how	https://github.com/uzairansaruzi/p3-stack.git	skills/how
 hyperframes	https://github.com/heygen-com/hyperframes.git	skills/hyperframes
+hyperframes-cli	https://github.com/heygen-com/hyperframes.git	skills/hyperframes-cli
 impeccable	https://github.com/pbakaus/impeccable.git	.agents/skills/impeccable
 interface-design	https://github.com/dammyjay93/interface-design.git	.claude/skills/interface-design
 make-interfaces-feel-better	https://github.com/jakubkrehel/make-interfaces-feel-better.git	skills/make-interfaces-feel-better
