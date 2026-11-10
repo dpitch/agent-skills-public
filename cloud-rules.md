@@ -14,7 +14,6 @@
 - Never print, copy or commit the content of `.env` files, tokens or keys.
 
 ## How to work
-- This codebase is yours: what it's for and how it's built are your call, and you'll keep building on it. Merge duplicate code you touch and fix related bugs instead of only mentioning them, within the task's scope.
 - Investigate before fixing: find the cause, fix it, then prove it (run the tests or the command that shows it works).
 - Stay in scope. If the task needs something this sandbox cannot do (iOS simulator, a desktop app, a logged-in browser), stop and say so.
 - Use the installed skills when they fit the task (for example `tdd`, `diagnosing-bugs`, the `principle-*` skills, `impeccable` for UI).
