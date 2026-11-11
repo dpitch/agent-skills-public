@@ -61,6 +61,7 @@ technical-writing	https://github.com/uzairansaruzi/p3-stack.git	skills/technical
 transitions-dev	https://github.com/Jakubantalik/transitions.dev.git	skills/transitions-dev
 typescript-best-practices	https://github.com/uzairansaruzi/p3-stack.git	skills/typescript-best-practices
 unslop	https://github.com/uzairansaruzi/p3-stack.git	skills/unslop
+vercel-react-best-practices	https://github.com/vercel-labs/agent-skills.git	skills/react-best-practices
 web-design-guidelines	https://github.com/vercel-labs/agent-skills.git	skills/web-design-guidelines
 write-swift	https://github.com/emilkowalski/skills.git	skills/write-swift
 writing-for-agents	https://github.com/mattpocock/skills.git	skills/productivity/writing-for-agents
