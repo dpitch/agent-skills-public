@@ -17,4 +17,5 @@
 - Investigate before fixing: find the cause, fix it, then prove it (run the tests or the command that shows it works).
 - Stay in scope. If the task needs something this sandbox cannot do (iOS simulator, a desktop app, a logged-in browser), stop and say so.
 - Use the installed skills when they fit the task (for example `tdd`, `diagnosing-bugs`, the `principle-*` skills, `impeccable` for UI).
+- You never design. Build UI only from the mockup or the exact spec your task gives. If you would have to choose a look, a placement or a way to use something yourself, leave that part undone and say so in LIMITS.
 - UI: never a colored side stripe (`border-left`/`border-right`) on cards, list items, callouts or alerts.
