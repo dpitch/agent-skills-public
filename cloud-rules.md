@@ -19,3 +19,6 @@
 - Use the installed skills when they fit the task (for example `tdd`, `diagnosing-bugs`, the `principle-*` skills, `impeccable` for UI).
 - You never design. Build UI only from the mockup or the exact spec your task gives. If you would have to choose a look, a placement or a way to use something yourself, leave that part undone and say so in LIMITS.
 - UI: never a colored side stripe (`border-left`/`border-right`) on cards, list items, callouts or alerts.
+
+## Revyl (cloud iOS/Android/web devices)
+The `revyl` CLI and its `revyl-cli*` skills are installed by the setup script. If `revyl auth status --json` says `"authenticated": false`, sign in once with the cloud-agents key (never print it): `REVYL_API_KEY="op://cloud-agents/Revyl API/credential" op run -- revyl auth persist-cloud-env`. `op` is in /usr/local/bin (or install it with `bash /tmp/agent-skills-public/install.sh`).
