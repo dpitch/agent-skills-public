@@ -48,16 +48,24 @@ fi
 RV=$(command -v revyl 2>/dev/null || echo "$RV_DIR/revyl")
 if [ -x "$RV" ]; then
   "$RV" skill install --claude --cli --global --force --yes >>"$RV_LOG" 2>&1 && echo "revyl: CLI and skills installed" || echo "revyl: skill install failed"
+  echo "OP_SERVICE_ACCOUNT_TOKEN: $([ -n "${OP_SERVICE_ACCOUNT_TOKEN:-}" ] && echo set || echo absent)" >>"$RV_LOG"
   if [ -n "${OP_SERVICE_ACCOUNT_TOKEN:-}" ] && ! "$RV" auth status >/dev/null 2>&1; then
-    if ! command -v op >/dev/null 2>&1 && command -v apt-get >/dev/null 2>&1; then
-      a=$(dpkg --print-architecture)
-      { curl -fsS https://downloads.1password.com/linux/keys/1password.asc | gpg --batch --yes --dearmor -o /usr/share/keyrings/1password-archive-keyring.gpg \
-        && echo "deb [arch=$a signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/$a stable main" > /etc/apt/sources.list.d/1password.list \
-        && apt-get update -qq -o Dir::Etc::sourcelist=sources.list.d/1password.list -o Dir::Etc::sourceparts=- \
-        && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq 1password-cli; } >/dev/null 2>&1 || echo "revyl: 1Password CLI install failed"
+    if ! command -v op >/dev/null 2>&1 && [ ! -x "$RV_DIR/op" ]; then
+      # 1Password CLI straight from 1Password's download server (no apt, no gpg, no unzip needed)
+      op_v=$(curl -fsSL https://app-updates.agilebits.com/check/1/0/CLI2/en/2.0.0/N 2>>"$RV_LOG" | sed -n 's/.*"version": *"\([^"]*\)".*/\1/p')
+      op_a=$(uname -m); case $op_a in x86_64|amd64) op_a=amd64 ;; aarch64|arm64) op_a=arm64 ;; esac
+      echo "op download: v=$op_v arch=$op_a" >>"$RV_LOG"
+      [ -n "$op_v" ] && curl -fsSL -o /tmp/op.zip "https://cache.agilebits.com/dist/1P/op2/pkg/v$op_v/op_linux_${op_a}_v$op_v.zip" >>"$RV_LOG" 2>&1 \
+        && python3 -c "import zipfile,sys; zipfile.ZipFile('/tmp/op.zip').extract('op', sys.argv[1])" "$RV_DIR" >>"$RV_LOG" 2>&1 \
+        && chmod +x "$RV_DIR/op"; rm -f /tmp/op.zip
     fi
-    REVYL_API_KEY="op://cloud-agents/Revyl API/credential" op run -- "$RV" auth persist-cloud-env >/dev/null 2>&1 \
-      && echo "revyl: signed in (cloud-agents key)" || echo "revyl: sign-in failed"
+    OP=$(command -v op 2>/dev/null || echo "$RV_DIR/op")
+    if [ -x "$OP" ]; then
+      REVYL_API_KEY="op://cloud-agents/Revyl API/credential" "$OP" run -- "$RV" auth persist-cloud-env >>"$RV_LOG" 2>&1 \
+        && echo "revyl: signed in (cloud-agents key)" || echo "revyl: sign-in failed (see $RV_LOG)"
+    else
+      echo "revyl: 1Password CLI install failed (see $RV_LOG)"
+    fi
   fi
 fi
 mkdir -p "$HOME/.claude"
