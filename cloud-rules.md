@@ -21,4 +21,4 @@
 - UI: never a colored side stripe (`border-left`/`border-right`) on cards, list items, callouts or alerts.
 
 ## Revyl (cloud iOS/Android/web devices)
-The `revyl` CLI and its `revyl-cli*` skills are installed by the setup script. If `revyl auth status --json` says `"authenticated": false`, sign in once with the cloud-agents key (never print it): `REVYL_API_KEY="op://cloud-agents/Revyl API/credential" op run -- revyl auth persist-cloud-env`. `op` is in /usr/local/bin (or install it with `bash /tmp/agent-skills-public/install.sh`).
+The `revyl` CLI and its `revyl-cli*` skills are installed by the setup script, and `revyl` signs in by itself on first use with the cloud-agents key (from the environment's 1Password service account). If `revyl auth status --json` still says `"authenticated": false`, run `REVYL_API_KEY="op://cloud-agents/Revyl API/credential" op run -- revyl auth persist-cloud-env` (never print the key); if `revyl` or `op` is missing, run `bash /tmp/agent-skills-public/install.sh` first.
