@@ -49,7 +49,7 @@ RV=$(command -v revyl 2>/dev/null || echo "$RV_DIR/revyl")
 if [ -x "$RV" ]; then
   "$RV" skill install --claude --cli --global --force --yes >>"$RV_LOG" 2>&1 && echo "revyl: CLI and skills installed" || echo "revyl: skill install failed"
   echo "OP_SERVICE_ACCOUNT_TOKEN: $([ -n "${OP_SERVICE_ACCOUNT_TOKEN:-}" ] && echo set || echo absent)" >>"$RV_LOG"
-  if [ -n "${OP_SERVICE_ACCOUNT_TOKEN:-}" ] && ! "$RV" auth status >/dev/null 2>&1; then
+  if [ -n "${OP_SERVICE_ACCOUNT_TOKEN:-}" ] && ! "$RV" auth status --json 2>/dev/null | grep -q '"authenticated": *true'; then
     if ! command -v op >/dev/null 2>&1 && [ ! -x "$RV_DIR/op" ]; then
       # 1Password CLI straight from 1Password's download server (no apt, no gpg, no unzip needed)
       op_v=$(curl -fsSL https://app-updates.agilebits.com/check/1/0/CLI2/en/2.0.0/N 2>>"$RV_LOG" | sed -n 's/.*"version": *"\([^"]*\)".*/\1/p')
