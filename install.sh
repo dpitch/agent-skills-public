@@ -23,6 +23,29 @@ for repo in $(grep -v '^#' "$SRC/skills.tsv" | cut -f2 | sort -u); do
     n=$((n+1))
   done < <(grep -v '^#' "$SRC/skills.tsv")
 done
+# Revyl (cloud iOS/Android/web devices): CLI + its skills, in every cloud session. Public, no secret here:
+# it signs in only when the environment holds OP_SERVICE_ACCOUNT_TOKEN (read-only on the 1Password vault
+# cloud-agents), with the key op://cloud-agents/Revyl API/credential. Never fails the session.
+RV_DIR=/usr/local/bin; [ -w "$RV_DIR" ] || RV_DIR="$HOME/.local/bin"; mkdir -p "$RV_DIR"
+if ! command -v revyl >/dev/null 2>&1 && [ ! -x "$RV_DIR/revyl" ]; then
+  curl -fsSL https://raw.githubusercontent.com/RevylAI/revyl-cli/main/scripts/install.sh \
+    | REVYL_INSTALL_DIR="$RV_DIR" REVYL_NO_MODIFY_PATH=1 sh >/dev/null 2>&1 || echo "revyl: CLI install failed"
+fi
+RV=$(command -v revyl 2>/dev/null || echo "$RV_DIR/revyl")
+if [ -x "$RV" ]; then
+  "$RV" skill install --claude --cli --global --force --yes >/dev/null 2>&1 && echo "revyl: CLI and skills installed" || echo "revyl: skill install failed"
+  if [ -n "${OP_SERVICE_ACCOUNT_TOKEN:-}" ] && ! "$RV" auth status >/dev/null 2>&1; then
+    if ! command -v op >/dev/null 2>&1 && command -v apt-get >/dev/null 2>&1; then
+      a=$(dpkg --print-architecture)
+      { curl -fsS https://downloads.1password.com/linux/keys/1password.asc | gpg --batch --yes --dearmor -o /usr/share/keyrings/1password-archive-keyring.gpg \
+        && echo "deb [arch=$a signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/$a stable main" > /etc/apt/sources.list.d/1password.list \
+        && apt-get update -qq -o Dir::Etc::sourcelist=sources.list.d/1password.list -o Dir::Etc::sourceparts=- \
+        && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq 1password-cli; } >/dev/null 2>&1 || echo "revyl: 1Password CLI install failed"
+    fi
+    REVYL_API_KEY="op://cloud-agents/Revyl API/credential" op run -- "$RV" auth persist-cloud-env >/dev/null 2>&1 \
+      && echo "revyl: signed in (cloud-agents key)" || echo "revyl: sign-in failed"
+  fi
+fi
 mkdir -p "$HOME/.claude"
 [ -s "$HOME/.claude/CLAUDE.md" ] || cp "$SRC/cloud-rules.md" "$HOME/.claude/CLAUDE.md"
 echo "agent-skills-public: $n skills installed"
