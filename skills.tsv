@@ -45,6 +45,7 @@ impeccable	https://github.com/pbakaus/impeccable.git	.agents/skills/impeccable
 interface-design	https://github.com/dammyjay93/interface-design.git	.claude/skills/interface-design
 intro	https://github.com/Illyism/seo-skills.git	content/intro
 linkdr	https://github.com/Illyism/seo-skills.git	seo/linkdr
+maintain-verification-skill	https://github.com/uzairansaruzi/p3-stack.git	skills/maintain-verification-skill
 make-interfaces-feel-better	https://github.com/jakubkrehel/make-interfaces-feel-better.git	skills/make-interfaces-feel-better
 mobile-native	https://github.com/emilkowalski/skills.git	skills/mobile-native
 no-comments	https://github.com/uzairansaruzi/p3-stack.git	skills/no-comments
