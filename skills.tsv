@@ -1,5 +1,6 @@
 # name	repo	path (generated nightly by skills-hub/export_public.py, do not edit)
 agent-browser	https://github.com/vercel-labs/agent-browser.git	skills/agent-browser
+agent-desktop	https://github.com/vercel-labs/agent-desktop.git	skills/agent-desktop
 ai-seo	https://github.com/coreyhaines31/marketingskills.git	skills/ai-seo
 ai-seo-report	https://github.com/Illyism/seo-skills.git	seo/ai-seo-report
 aiseotracker	https://github.com/Illyism/seo-skills.git	seo/aiseotracker
